@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ToDo.Models
 {
-    internal class ToDoItem
+    public class ToDoItem
     {
+        
+
     }
 }

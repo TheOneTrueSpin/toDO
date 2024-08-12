@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToDo.Services
 {
-    internal class ListManagementService
+    public class ListManagementService
     {
     }
 }

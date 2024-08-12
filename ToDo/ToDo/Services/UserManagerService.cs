@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToDo.Services
 {
-    public class AuthService
+    public class UserManagerService
     {
     }
 }
