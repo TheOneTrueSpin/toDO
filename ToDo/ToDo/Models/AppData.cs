@@ -8,9 +8,8 @@ namespace ToDo.Models
 {
     public class AppData
     {
-
-
-
+        public List<User> Users { get; set; } = new List<User>();
+        public int? CurrentUserId = null; //null for no user
 
     }
 }

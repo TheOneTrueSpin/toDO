@@ -8,5 +8,18 @@ namespace ToDo.Services
 {
     public class AuthService
     {
+        public void SignUp() 
+        {
+        
+        }
+        public void Login()
+        {
+
+        }
+        public void SignOut() 
+        { 
+        
+        }
+        
     }
 }

@@ -8,7 +8,8 @@ namespace ToDo.Models
 {
     public class ToDoItem
     {
-        
+        public string ToDoTitle { get; set; }
+        public int Id { get; set; }
 
     }
 }

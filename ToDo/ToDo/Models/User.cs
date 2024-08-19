@@ -10,6 +10,8 @@ namespace ToDo.Models
     {
         public string Username { get; set; } = "Defualt";
         public string Password { get; set; } = "Defualt";
+        public List<ToDoItem> ToDoItems { get; set; } = new List<ToDoItem>();
+
 
     }
 }
