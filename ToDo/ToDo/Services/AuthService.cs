@@ -8,17 +8,17 @@ namespace ToDo.Services
 {
     public class AuthService
     {
-        public void SignUp() 
+        public void SignUp(string username, string password) 
         {
         
         }
-        public void Login()
+        public void Login(string username, string password)
         {
 
         }
-        public void SignOut() 
-        { 
-        
+        public void SignOut(string username, string password)
+        {
+
         }
         
     }
