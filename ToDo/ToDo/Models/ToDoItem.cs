@@ -8,8 +8,9 @@ namespace ToDo.Models
 {
     public class ToDoItem
     {
-        public string ToDoTitle { get; set; }
         public int Id { get; set; }
+        public string ToDoTitle { get; set; }
+        public bool IsCompleted { get; set; }
 
     }
 }
