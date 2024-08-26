@@ -10,6 +10,11 @@ namespace ToDo.Services
 {
     public class ListManagementService
     {
+        private readonly AppData _appData;
+        public ListManagementService(AppData appData)
+        {
+            _appData = appData;
+        }
         public void AddItem(string input)
         {
 

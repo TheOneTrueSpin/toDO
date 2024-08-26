@@ -10,6 +10,12 @@ namespace ToDo.Services
 {
     public class UserManagerService
     {
+        private readonly AppData _appData;
+        public UserManagerService(AppData appData)
+        {
+            _appData = appData;
+        }
+        
         public void CreateUser(string username, string password)
         {
             User user = new User() 
