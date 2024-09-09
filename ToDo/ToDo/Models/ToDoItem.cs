@@ -12,5 +12,6 @@ namespace ToDo.Models
         public string ToDoTitle { get; set; }
         public bool IsCompleted { get; set; }
 
+
     }
 }

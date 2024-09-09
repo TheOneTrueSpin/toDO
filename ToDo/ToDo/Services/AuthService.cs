@@ -18,21 +18,48 @@ namespace ToDo.Services
             _userManagerService = userManagerService;
         }
 
-        public void SignUp(string username, string password) 
+        public bool SignUp(string username, string password) 
         {
-        
+            if(_userManagerService.GetUserByUsername(username) is not null)
+            {
+                //Console.WriteLine("user not created");
+                return false;
+            }
+            _userManagerService.CreateUser(username, password);
+            //Console.WriteLine("user created");
+            return true;
         }
         public void Login(string username, string password)
         {
+            User? user = _userManagerService.GetUserByUsername(username);
+            if (user is null)
+            {
+                Console.WriteLine("The user " + username + " does not exist");
+            }
+
+            if (password == user.Password)
+            {
+                _appData.CurrentUserId = user.Id;
+            }
+            Console.WriteLine("The password is incorrect");
 
         }
-        public void SignOut(string username, string password)
+        public void SignOut()
         {
-
+            if(_appData.CurrentUserId is null)
+            {
+                Console.WriteLine("Unable to log out due to the fact you are not logged in");
+            }
+            _appData.CurrentUserId = null;
         }
+
         public bool IsUserStillSignedIn(int userId)
         {
-            throw new NotImplementedException();
+            if (_appData.CurrentUserId is not null) 
+            {
+                return true;
+            }
+            return false;
         }
         
     }
