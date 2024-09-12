@@ -35,6 +35,7 @@ namespace ToDo.Services
             if (user is null)
             {
                 Console.WriteLine("The user " + username + " does not exist");
+                return;
             }
 
             if (password == user.Password)

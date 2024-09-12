@@ -36,7 +36,8 @@ namespace ToDo.Services
             ToDoItem toDoItem = new ToDoItem()
             {
                 ToDoTitle = input,
-                IsCompleted = false
+                IsCompleted = false,
+                Id = 1
             };
 
             user.ToDoItems.Add(toDoItem);
@@ -45,6 +46,27 @@ namespace ToDo.Services
 
         public void DeleteItem(int id)
         {
+            int? currentUserId = _appData.CurrentUserId;
+
+            if (currentUserId is null)
+            {
+                Console.WriteLine("You must be logged in to list item's");
+                return;
+            }
+            User? user = _userManagerService.GetUserById((int)currentUserId);
+
+            if (user is null)
+            {
+                throw new NullReferenceException("damn it, looks like the user is null :)");
+            }
+
+            ToDoItem? toDoItem = GetItemById(id);
+            if (toDoItem is null)
+            {
+                Console.WriteLine("This item does not exist");
+                return;
+            }
+            user.ToDoItems.Remove(toDoItem);
 
         }
 
@@ -60,7 +82,26 @@ namespace ToDo.Services
 
         public void ListItems() 
         {
+            int? currentUserId = _appData.CurrentUserId;
 
+            if (currentUserId is null)
+            {
+                Console.WriteLine("You must be logged in to list item's");
+                return;
+            }
+
+            User? user = _userManagerService.GetUserById((int)currentUserId);
+            
+            if (user is null)
+            {
+                throw new NullReferenceException("damn it, looks like the user is null :)");
+            }
+
+            foreach (ToDoItem toDoItem in user.ToDoItems)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"{toDoItem.Id} - {toDoItem.ToDoTitle} - {(toDoItem.IsCompleted ? "Completed" : "")}");
+            }
         }
 
         private ToDoItem? GetItemById(int toDoItemId) 
@@ -69,7 +110,7 @@ namespace ToDo.Services
 
             if (currentUserId is null)
             {
-                throw new NullReferenceException("damn it, looks like the user is null :)");
+                throw new NullReferenceException("damn it, looks like the current user Id is null :)");
             }
 
             User? user = _userManagerService.GetUserById((int)currentUserId);
