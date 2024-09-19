@@ -13,7 +13,7 @@ namespace ToDo.Models
         public string Username { get; set; } = "Defualt";
         public string Password { get; set; } = "Defualt";
         public List<ToDoItem> ToDoItems { get; set; } = new List<ToDoItem>();
-        public int CurrentToDoItemId = 0;
+        public int CurrentToDoItemId { get; set; } = 1;
         public User()
         {
             PreviousId = PreviousId + 1;

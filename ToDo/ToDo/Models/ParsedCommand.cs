@@ -10,8 +10,7 @@ namespace ToDo.Models
     public class ParsedCommand
     {
         public Command Command { get; set; }
-
-        public List<string> Argument { get; set; } = new List<string>();
+        public List<string> Arguments { get; set; } = new List<string>();
 
     }
 }

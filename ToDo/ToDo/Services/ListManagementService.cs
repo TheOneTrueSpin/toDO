@@ -19,45 +19,30 @@ namespace ToDo.Services
         }
         public void AddItem(string input)
         {
-            int? currentUserId = _appData.CurrentUserId;
-
-            if (currentUserId is null)
-            {
-                throw new NullReferenceException("damn it, looks like the user is null :)");
-            }
-
-            User? user = _userManagerService.GetUserById((int)currentUserId);
-
+            User? user = _userManagerService.GetUser();
             if (user is null)
             {
-                throw new NullReferenceException("damn it, looks like the user is null :)");
+                Console.WriteLine("You are not logged in");
+                return;
             }
-            //IDs need to be worked out, currently no ID for to do items 
             ToDoItem toDoItem = new ToDoItem()
             {
                 ToDoTitle = input,
                 IsCompleted = false,
-                Id = 1
+                Id = user.CurrentToDoItemId
             };
 
             user.ToDoItems.Add(toDoItem);
-
+            user.CurrentToDoItemId++;
         }
 
         public void DeleteItem(int id)
         {
-            int? currentUserId = _appData.CurrentUserId;
-
-            if (currentUserId is null)
-            {
-                Console.WriteLine("You must be logged in to list item's");
-                return;
-            }
-            User? user = _userManagerService.GetUserById((int)currentUserId);
-
+            User? user = _userManagerService.GetUser();
             if (user is null)
             {
-                throw new NullReferenceException("damn it, looks like the user is null :)");
+                Console.WriteLine("You are not logged in");
+                return;
             }
 
             ToDoItem? toDoItem = GetItemById(id);
@@ -70,31 +55,36 @@ namespace ToDo.Services
 
         }
 
-        public void CompleteItem(string input)
+        public void CompleteItem(int id)
         {
-
+            ToDoItem? toDoItem = GetItemById(id);
+            if (toDoItem is null)
+            {
+                Console.WriteLine("This item does not exist");
+                return;
+            }
+            toDoItem.IsCompleted = true;
         }
 
         public void EditItem(int id, string input)
         {
+            ToDoItem? toDoItem = GetItemById(id);
+            if (toDoItem is null)
+            {
+                Console.WriteLine("This item does not exist");
+                return;
+            }
+            toDoItem.ToDoTitle = input;  
 
         }
 
         public void ListItems() 
         {
-            int? currentUserId = _appData.CurrentUserId;
-
-            if (currentUserId is null)
-            {
-                Console.WriteLine("You must be logged in to list item's");
-                return;
-            }
-
-            User? user = _userManagerService.GetUserById((int)currentUserId);
-            
+            User? user = _userManagerService.GetUser();
             if (user is null)
             {
-                throw new NullReferenceException("damn it, looks like the user is null :)");
+                Console.WriteLine("You are not logged in");
+                return;
             }
 
             foreach (ToDoItem toDoItem in user.ToDoItems)
@@ -106,17 +96,10 @@ namespace ToDo.Services
 
         private ToDoItem? GetItemById(int toDoItemId) 
         {
-            int? currentUserId = _appData.CurrentUserId;
-
-            if (currentUserId is null)
-            {
-                throw new NullReferenceException("damn it, looks like the current user Id is null :)");
-            }
-
-            User? user = _userManagerService.GetUserById((int)currentUserId);
+            User? user = _userManagerService.GetUser();
             if (user is null)
             {
-                throw new NullReferenceException("damn it, looks like the user is null");
+                return null;
             }
             for (int i = 0; i < user.ToDoItems.Count; i++)
             {

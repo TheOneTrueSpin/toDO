@@ -62,6 +62,15 @@ namespace ToDo.Services
             }
             return null;
         }
-
+        public User? GetUser()
+        {
+            int? currentUserId = _appData.CurrentUserId;
+            if (currentUserId is null)
+            {
+                return null;
+            }
+            User? user = GetUserById((int)currentUserId);
+            return user;
+        }
     }
 }
