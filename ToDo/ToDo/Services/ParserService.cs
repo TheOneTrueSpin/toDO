@@ -14,10 +14,25 @@ namespace ToDo.Services
 
         public ParsedCommand? ParseInput(string input)
         {
-            throw new NotImplementedException();
+
+            Command? command = ParseCommand(input);
+            //work out argument size 
+            if (command is null)
+            {
+                return null;
+            }
+            List<string> arguments = ParseArguments(input, GetArgumentSize((Command)command));
+            //i was up to here hkjdf sakhjla sdfhkljdasfkhjlafdskjlhadfslkhjadsflkhjiadsfljkh
+            ParsedCommand parsedCommand = new ParsedCommand
+            {
+                Command = (Command)command,
+                Arguments = arguments
+
+            };
+            return parsedCommand;
         }
 
-        private List<string> ParseArgument(string input, int size)//How many arguments there are
+        private List<string> ParseArguments(string input, int argumentSize)//How many arguments there are
         {
             //delete command and seperate the rest into a list
             List<string> seperatedInput = input.Split(" ").ToList();
@@ -26,7 +41,21 @@ namespace ToDo.Services
                 throw new Exception("Seperated input count is zero");
             }
             seperatedInput.RemoveAt(0);
-            return seperatedInput;
+
+            //Redo the list so it splits it into the argument size
+
+            if(argumentSize == 0)
+            {
+                return new List<string>();
+            }
+
+            List<string> seperatedArguments = seperatedInput.Take(argumentSize - 1).ToList();
+
+            string text = string.Join(" ", seperatedInput.TakeLast(seperatedInput.Count - (argumentSize - 1)));
+            // takes the rest of the input and puts it back together in the list
+            seperatedArguments.Add(text);
+
+            return seperatedArguments;
             
         }
         
@@ -44,6 +73,45 @@ namespace ToDo.Services
                 return null;
             }
  
+        }
+        private int GetArgumentSize(Command command)
+        {
+            if(command == Command.Add)
+            {
+                return 1;
+            }
+            else if (command == Command.Delete)
+            {
+                return 1;
+            }
+            else if (command == Command.Complete)
+            {
+                return 1;
+            }
+            else if (command == Command.Edit)
+            {
+                return 2;
+            }
+            else if (command == Command.List)
+            {
+                return 0;
+            }
+            else if (command == Command.Signup)
+            {
+                return 2;
+            }
+            else if (command == Command.LogIn)
+            {
+                return 2;
+            }
+            else if (command == Command.LogOut)
+            {
+                return 0;
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
     }
