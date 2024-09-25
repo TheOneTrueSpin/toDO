@@ -11,7 +11,17 @@ namespace ToDo.Services
 {
     public class ParserService
     {
-
+        private Dictionary<Command, int> commandArgumentSizeDictionary = new Dictionary<Command, int>()
+        {
+            {Command.Add, 1},
+            {Command.Delete, 1},
+            {Command.Complete, 1},
+            {Command.Edit, 2},
+            {Command.List, 0},
+            {Command.Signup, 2},
+            {Command.LogIn, 2},
+            {Command.LogOut, 0}
+        };
         public ParsedCommand? ParseInput(string input)
         {
 
@@ -76,42 +86,44 @@ namespace ToDo.Services
         }
         private int GetArgumentSize(Command command)
         {
-            if(command == Command.Add)
+            //if(command == Command.Add)
+            //{
+            //    return 1;
+            //}
+            //else if (command == Command.Delete)
+            //{
+            //    return 1;
+            //}
+            //else if (command == Command.Complete)
+            //{
+            //    return 1;
+            //}
+            //else if (command == Command.Edit)
+            //{
+            //    return 2;
+            //}
+            //else if (command == Command.List)
+            //{
+            //    return 0;
+            //}
+            //else if (command == Command.Signup)
+            //{
+            //    return 2;
+            //}
+            //else if (command == Command.LogIn)
+            //{
+            //    return 2;
+            //}
+            //else if (command == Command.LogOut)
+            //{
+            //    return 0;
+            //}
+            if (!commandArgumentSizeDictionary.ContainsKey(command))
             {
-                return 1;
+                throw new Exception("Argument size not found for command");
             }
-            else if (command == Command.Delete)
-            {
-                return 1;
-            }
-            else if (command == Command.Complete)
-            {
-                return 1;
-            }
-            else if (command == Command.Edit)
-            {
-                return 2;
-            }
-            else if (command == Command.List)
-            {
-                return 0;
-            }
-            else if (command == Command.Signup)
-            {
-                return 2;
-            }
-            else if (command == Command.LogIn)
-            {
-                return 2;
-            }
-            else if (command == Command.LogOut)
-            {
-                return 0;
-            }
-            else
-            {
-                throw new Exception();
-            }
+
+            return commandArgumentSizeDictionary[command];
         }
 
     }

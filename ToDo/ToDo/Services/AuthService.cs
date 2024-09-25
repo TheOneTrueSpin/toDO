@@ -34,16 +34,18 @@ namespace ToDo.Services
             User? user = _userManagerService.GetUserByUsername(username);
             if (user is null)
             {
-                Console.WriteLine("The user " + username + " does not exist");
+                Console.WriteLine("The user \"" + username + "\" does not exist");
                 return;
             }
 
             if (password == user.Password)
             {
                 _appData.CurrentUserId = user.Id;
+                Console.Clear();
+                Console.WriteLine("You are now logged in as " + username);
+                return;
             }
-            Console.WriteLine("The password is incorrect");
-
+            Console.WriteLine("Password is incorrect");
         }
         public void SignOut()
         {

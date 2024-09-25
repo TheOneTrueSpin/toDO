@@ -91,6 +91,7 @@ namespace ToDo.Services
             {
                 Console.WriteLine();
                 Console.WriteLine($"{toDoItem.Id} - {toDoItem.ToDoTitle} - {(toDoItem.IsCompleted ? "Completed" : "")}");
+                Console.WriteLine();
             }
         }
 

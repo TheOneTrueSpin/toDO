@@ -37,58 +37,80 @@ namespace ToDo.Services
             Console.Clear();
             while (true)
             {
-                Console.WriteLine("Inputs: SignUp, LogIn, LogOut, Add, Delete, Edit, Complete, List");
-                string? input = Console.ReadLine();
-                if (input is null)
+                try
                 {
-                    Console.WriteLine("Input is Invalid");
-                    continue;
-                }
-                ParsedCommand? parsedCommand = _parserService.ParseInput(input);
-                if (parsedCommand is null)
-                {
-                    Console.WriteLine("Input is Invalid");
-                    continue;
-                }
+                    if (_appData.CurrentUserId is null)
+                    {
+                        Console.WriteLine("To SignUp please type \"SignUp\" followed by a username and password");
+                        Console.WriteLine("");
+                        Console.WriteLine("To LogIn please type \"LogIn\" followed by a username and password");
+                    }
+                    else
+                    {
+                        _listManagementService.ListItems();
+                        Console.WriteLine("Inputs: Add, Delete, Edit, Complete, List or LogOut");
+                    }
+                    string? input = Console.ReadLine();
+                    if (input is null)
+                    {
+                        Console.WriteLine("Input is Invalid");
+                        continue;
+                    }
+                    ParsedCommand? parsedCommand = _parserService.ParseInput(input);
+                    if (parsedCommand is null)
+                    {
+                        Console.WriteLine("Input is Invalid");
+                        continue;
+                    }
 
-
-                if (parsedCommand.Command == Command.Add)
-                {
-                    _listManagementService.AddItem(parsedCommand.Arguments[0]);
+                    if (parsedCommand.Command == Command.Add)
+                    {
+                        _listManagementService.AddItem(parsedCommand.Arguments[0]);
+                    }
+                    else if (parsedCommand.Command == Command.Delete)
+                    {
+                        _listManagementService.DeleteItem(int.Parse(parsedCommand.Arguments[0]));
+                    }
+                    else if (parsedCommand.Command == Command.Complete)
+                    {
+                        _listManagementService.CompleteItem(int.Parse(parsedCommand.Arguments[0]));
+                    }
+                    else if (parsedCommand.Command == Command.Edit)
+                    {
+                        _listManagementService.EditItem(int.Parse(parsedCommand.Arguments[0]), parsedCommand.Arguments[1]);
+                    }
+                    else if (parsedCommand.Command == Command.List)
+                    {
+                        
+                    }
+                    else if (parsedCommand.Command == Command.Signup)
+                    {
+                        _authService.SignUp(parsedCommand.Arguments[0], parsedCommand.Arguments[1]);
+                    }
+                    else if (parsedCommand.Command == Command.LogIn)
+                    {
+                        _authService.Login(parsedCommand.Arguments[0], parsedCommand.Arguments[1]);
+                    }
+                    else if (parsedCommand.Command == Command.LogOut)
+                    {
+                        _authService.SignOut();
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
-                else if (parsedCommand.Command == Command.Delete)
+                catch (FormatException ex)
                 {
-                    _listManagementService.DeleteItem(int.Parse(parsedCommand.Arguments[0]));
+                    Console.Clear();
+                    Console.WriteLine("Invalid command. \r\n\r\n If you are selecting a list item please use the ID\r\n");
                 }
-                else if (parsedCommand.Command == Command.Complete)
+                catch (Exception ex)
                 {
-                    _listManagementService.CompleteItem(int.Parse(parsedCommand.Arguments[0]));
+                    Console.Clear();
+                    Console.WriteLine("An unspecified error was caught");
+                    Console.WriteLine(ex.Message);
                 }
-                else if (parsedCommand.Command == Command.Edit)
-                {
-                    _listManagementService.EditItem(int.Parse(parsedCommand.Arguments[0]), parsedCommand.Arguments[1]);
-                }
-                else if (parsedCommand.Command == Command.List)
-                {
-                    _listManagementService.ListItems();
-                }
-                else if (parsedCommand.Command == Command.Signup)
-                {
-                    _authService.SignUp(parsedCommand.Arguments[0], parsedCommand.Arguments[1]);
-                }
-                else if (parsedCommand.Command == Command.LogIn)
-                {
-                    _authService.Login(parsedCommand.Arguments[0], parsedCommand.Arguments[1]);
-                }
-                else if (parsedCommand.Command == Command.LogOut)
-                {
-                    _authService.SignOut();
-                }
-                else
-                {
-                    throw new Exception();
-                }
-
             }
 
         }

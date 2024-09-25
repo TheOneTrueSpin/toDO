@@ -26,6 +26,8 @@ namespace ToDo.Services
                 Password = password,
             };
             _appData.Users.Add(user);
+            Console.Clear();
+            Console.WriteLine($"({user.Username}) has been created\r\n");
             return user;
 
         }
