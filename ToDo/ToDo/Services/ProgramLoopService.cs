@@ -100,7 +100,7 @@ namespace ToDo.Services
                         throw new Exception();
                     }
                 }
-                catch (FormatException ex)
+                catch (FormatException)
                 {
                     Console.Clear();
                     Console.WriteLine("Invalid command. \r\n\r\n If you are selecting a list item please use the ID\r\n");
